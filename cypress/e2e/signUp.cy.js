@@ -1,13 +1,22 @@
 /// <reference types="cypress" />
-/// <reference types="../support" />
+
+import { faker } from '@faker-js/faker';
+
+const safeUsername = () =>
+  faker.string.alpha({ length: 1, casing: 'lower' }) +
+  faker.string.alphanumeric({ length: 9, casing: 'lower' }).replace(/[^a-z0-9]/g, '');
 
 describe('Sign Up page', () => {
+  it('should allow user to sign up via API helper and be recognized', () => {
+    const email = faker.internet.email(
+      { allowSpecialCharacters: false }).toLowerCase();
+    const username = safeUsername();
+    const password = faker.internet.password({ length: 12 }) + '1!';
 
-  before(() => {
+    cy.register(email, username, password);
+    cy.login(email, password);
 
-  });
-
-  it('should ...', () => {
-
+    cy.get('a.nav-link[href^="/profile/"]').should('contain', username);
   });
 });
+
