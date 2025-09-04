@@ -3,36 +3,16 @@ import PageObject from '../PageObject';
 class SignInPageObject extends PageObject {
   url = '/user/login';
 
-  get email() {
-    return cy.get('input[type="email"], input[placeholder="Email"]');
-  }
+  get email()    { return cy.getByDataCy('signin-email'); }
+  get password() { return cy.getByDataCy('signin-password'); }
+  get submit()   { return cy.getByDataCy('signin-submit'); }
+  get errorList(){ return cy.getByDataCy('error-list'); }
 
-  get password() {
-    return cy.get('input[type="password"], input[placeholder="Password"]');
-  }
+  visit() { super.visit(this.url); }
 
-  get submit() {
-    return cy.contains('button', /^sign in$/i);
-  }
-
-  get errorList() {
-    return cy.get('.error-messages, .error, [data-cy="error-list"]');
-  }
-
-  typeEmail(v) {
-    this.email.clear();
-    this.email.type(v);
-  }
-
-  typePassword(v) {
-    this.password.clear();
-    this.password.type(v, { log: false });
-  }
-
-  clickSignInBtn() {
-    this.submit.click();
-  }
+  typeEmail(v)    { this.email.clear().type(v); }
+  typePassword(v) { this.password.clear().type(v, { log: false }); }
+  clickSignInBtn(){ this.submit.click(); }
 }
 
 export default SignInPageObject;
-

@@ -1,4 +1,3 @@
-// cypress/e2e/article.cy.js
 /// <reference types="cypress" />
 
 import { faker } from '@faker-js/faker';
@@ -68,9 +67,8 @@ describe('Article', () => {
     editor.publish();
 
     let slug;
-    cy.url().should('include', '/article/').then((u) => {
-      slug = u.split('/').pop();
-    });
+    cy.url().should(
+      'include', '/article/').then((u) => { slug = u.split('/').pop(); });
 
     cy.intercept('DELETE', '**/api/articles/*').as('deleteArticle');
     cy.on('window:confirm', () => true);
@@ -79,7 +77,7 @@ describe('Article', () => {
     cy.wait('@deleteArticle').its('response.statusCode').should('eq', 204);
 
     cy.url().should('not.include', '/article/');
-    cy.get('a.navbar-brand').should('be.visible');
+    cy.getByDataCy('nav-brand').should('be.visible');
 
     cy.request({
       method: 'GET',
@@ -90,4 +88,3 @@ describe('Article', () => {
       .should('eq', 404);
   });
 });
-

@@ -3,11 +3,10 @@ import PageObject from '../PageObject';
 class ArticlePageObject extends PageObject {
   urlFor(slug) { return `/article/${slug}`; }
 
-  get title()    { return cy.get('.article-page h1'); }
-  get body()     { return cy.get(
-    '.article-page .article-content, .article-page p'); }
-  get editBtn()  { return cy.contains('.article-page a, .article-page button', /edit article/i); }
-  get deleteBtn(){ return cy.contains('.article-page button', /delete article/i); }
+  get title()    { return cy.getByDataCy('article-title'); }
+  get body()     { return cy.getByDataCy('article-body'); }
+  get editBtn()  { return cy.getByDataCy('article-edit'); }
+  get deleteBtn(){ return cy.getByDataCy('article-delete'); }
 
   clickEdit(){ this.editBtn.click(); }
   clickDelete(){ this.deleteBtn.click(); }

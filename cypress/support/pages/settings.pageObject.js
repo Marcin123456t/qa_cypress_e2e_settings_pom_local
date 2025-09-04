@@ -1,19 +1,14 @@
-// cypress/support/pages/settings.pageObject.js
 import PageObject from '../PageObject';
 
 class SettingsPageObject extends PageObject {
   url = '/settings';
 
-  get username()  { return cy.get(
-    'input[placeholder="Username"], input[name="username"]'); }
-  get bio()       { return cy.get(
-    'textarea[placeholder="Short bio about you"], textarea[name="bio"]'); }
-  get email()     { return cy.get(
-    'input[placeholder="Email"], input[type="email"]'); }
-  get password()  { return cy.get(
-    'input[placeholder="New Password"], input[type="password"]'); }
-  get submitBtn() { return cy.contains('button', /^update settings$/i); }
-  get logoutBtn() { return cy.contains('button.btn-outline-danger, button, a', /logout/i).first(); }
+  get username()  { return cy.getByDataCy('settings-username'); }
+  get bio()       { return cy.getByDataCy('settings-bio'); }
+  get email()     { return cy.getByDataCy('settings-email'); }
+  get password()  { return cy.getByDataCy('settings-password'); }
+  get submitBtn() { return cy.getByDataCy('settings-submit'); }
+  get logoutBtn() { return cy.getByDataCy('settings-logout'); }
 
   visit() {
     cy.visit(this.url);
@@ -29,9 +24,8 @@ class SettingsPageObject extends PageObject {
   logout() {
     cy.intercept('GET', '**/api/articles?limit=10&offset=*').as('homeFeed');
     this.logoutBtn.click();
-    cy.wait('@homeFeed'); // upewnij się, że home się przeładował
+    cy.wait('@homeFeed');
   }
 }
 
 export default SettingsPageObject;
-

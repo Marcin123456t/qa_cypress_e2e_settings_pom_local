@@ -33,6 +33,7 @@ describe('Sign In page', () => {
     signInPage.typePassword(faker.internet.password({ length: 12 }));
     cy.intercept('POST', '**/api/users/login').as('badLogin');
     signInPage.clickSignInBtn();
+
     cy.wait('@badLogin').its('response.statusCode').should('eq', 422);
 
     signInPage.errorList
@@ -43,4 +44,3 @@ describe('Sign In page', () => {
       });
   });
 });
-

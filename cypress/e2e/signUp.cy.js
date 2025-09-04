@@ -16,7 +16,6 @@ describe('Sign Up page', () => {
     cy.register(email, username, password);
     cy.login(email, password);
 
-    cy.get('a.nav-link[href^="/profile/"]').should('contain', username);
+    cy.getByDataCy('nav-username-link').should('contain', username);
   });
 });
-
