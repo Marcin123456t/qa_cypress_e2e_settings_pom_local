@@ -22,10 +22,7 @@ Cypress.Commands.add('registerViaApi', (email, username, password) => {
 
       if (res.status === 422 && emailTaken) return;
 
-      expect(
-        res.status,
-        JSON.stringify(res.body)
-      ).to.eq(200);
+      expect(res.status, JSON.stringify(res.body)).to.eq(200);
     });
 });
 
@@ -42,19 +39,13 @@ Cypress.Commands.add('auth', (email, password) => {
       body: { user: { email, password } },
     })
     .then((res) => {
-      expect(
-        res.status,
-        JSON.stringify(res.body)
-      ).to.eq(200);
+      expect(res.status, JSON.stringify(res.body)).to.eq(200);
 
       const loggedUser = res.body?.user;
 
       cy.window().then((win) => {
         try {
-          win.localStorage.setItem(
-            'user',
-            JSON.stringify(loggedUser)
-          );
+          win.localStorage.setItem('user', JSON.stringify(loggedUser));
         } catch {}
       });
 
@@ -78,12 +69,9 @@ Cypress.Commands.add('loginUI', (email, password) => {
   cy.intercept('POST', '**/api/users/login').as('login');
   cy.getByDataCy('signin-submit').click();
 
-  cy.wait('@login')
-    .its('response.statusCode')
-    .should('eq', 200);
+  cy.wait('@login').its('response.statusCode').should('eq', 200);
 
-  cy.getByDataCy('nav-settings', { timeout: 10000 })
-    .should('be.visible');
+  cy.getByDataCy('nav-settings', { timeout: 10000 }).should('be.visible');
 });
 
 Cypress.Commands.add('login', (email, password) => {
@@ -92,14 +80,11 @@ Cypress.Commands.add('login', (email, password) => {
 
 Cypress.Commands.add('forceLoginScreen', () => {
   cy.window().then((win) => {
-    try {
-      win.localStorage.removeItem('user');
-    } catch {}
+    try { win.localStorage.removeItem('user'); } catch {}
   });
 
   cy.clearCookie('auth', { log: false });
   cy.visit('/user/login');
 
-  cy.getByDataCy('signin-email', { timeout: 10000 })
-    .should('be.visible');
+  cy.getByDataCy('signin-email', { timeout: 10000 }).should('be.visible');
 });

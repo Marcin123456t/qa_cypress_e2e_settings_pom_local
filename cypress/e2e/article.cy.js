@@ -8,6 +8,9 @@ const editor = new EditorPageObject();
 const article = new ArticlePageObject();
 
 describe('Article', () => {
+  // Wymagane: czyszczenie DB w każdym teście
+  beforeEach(() => { cy.task('db:clear'); });
+
   let user;
 
   beforeEach(() => {
@@ -67,8 +70,9 @@ describe('Article', () => {
     editor.publish();
 
     let slug;
-    cy.url().should(
-      'include', '/article/').then((u) => { slug = u.split('/').pop(); });
+    cy.url().should('include', '/article/').then((u) => {
+      slug = u.split('/').pop();
+    });
 
     cy.intercept('DELETE', '**/api/articles/*').as('deleteArticle');
     cy.on('window:confirm', () => true);

@@ -7,6 +7,9 @@ const safeUsername = () =>
   faker.string.alphanumeric({ length: 9, casing: 'lower' }).replace(/[^a-z0-9]/g, '');
 
 describe('Sign Up page', () => {
+  // Wymagane: czyszczenie DB w każdym teście
+  beforeEach(() => { cy.task('db:clear'); });
+
   it('should allow user to sign up via API helper and be recognized', () => {
     const email = faker.internet.email(
       { allowSpecialCharacters: false }).toLowerCase();

@@ -16,6 +16,9 @@ const safeUsername = () =>
   faker.string.alphanumeric({ length: 9, casing: 'lower' }).replace(/[^a-z0-9]/g, '');
 
 describe('Settings page', () => {
+  // Wymagane: czyszczenie DB w każdym teście
+  beforeEach(() => { cy.task('db:clear'); });
+
   let user;
 
   beforeEach(() => {
@@ -27,7 +30,9 @@ describe('Settings page', () => {
           .registerViaApi(u.email, u.username, u.password)
           .then(() => cy.auth(u.email, u.password));
       })
-      .then(() => { settings.visit(); });
+      .then(() => {
+        settings.visit();
+      });
   });
 
   it('should provide an ability to update username', () => {
@@ -75,6 +80,7 @@ describe('Settings page', () => {
     cy.forceLoginScreen();
 
     cy.intercept('POST', '**/api/users/login').as('badLogin');
+
     signIn.visit();
     signIn.typeEmail(user.email);
     signIn.typePassword(user.password);

@@ -8,6 +8,9 @@ const signInPage = new SignInPageObject();
 const homePage = new HomePageObject();
 
 describe('Sign In page', () => {
+  // Wymagane: czyszczenie DB w każdym teście
+  beforeEach(() => { cy.task('db:clear'); });
+
   let user;
 
   before(() => {

@@ -15,11 +15,29 @@ class SettingsPageObject extends PageObject {
     cy.url().should('include', '/settings');
   }
 
-  typeUsername(v){ this.username.clear().type(v); }
-  typeBio(v){ this.bio.clear().type(v); }
-  typeEmail(v){ this.email.clear().type(v); }
-  typePassword(v){ this.password.clear().type(v, { log:false }); }
-  submit(){ this.submitBtn.click(); }
+  typeUsername(v) {
+    this.username.clear();
+    this.username.type(v);
+  }
+
+  typeBio(v) {
+    this.bio.clear();
+    this.bio.type(v);
+  }
+
+  typeEmail(v) {
+    this.email.clear();
+    this.email.type(v);
+  }
+
+  typePassword(v) {
+    this.password.clear();
+    this.password.type(v, { log:false });
+  }
+
+  submit() {
+    this.submitBtn.click();
+  }
 
   logout() {
     cy.intercept('GET', '**/api/articles?limit=10&offset=*').as('homeFeed');

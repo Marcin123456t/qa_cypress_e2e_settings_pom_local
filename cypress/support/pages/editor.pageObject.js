@@ -9,13 +9,34 @@ class EditorPageObject extends PageObject {
   get tagsField()  { return cy.getByDataCy('editor-tags'); }
   get publishBtn() { return cy.getByDataCy('editor-publish'); }
 
-  visit() { super.visit(this.url); cy.url().should('include', '/editor'); }
+  visit() {
+    super.visit(this.url);
+    cy.url().should('include', '/editor');
+  }
 
-  typeTitle(v){ this.titleField.clear().type(v); }
-  typeAbout(v){ this.aboutField.clear().type(v); }
-  typeBody(v){ this.bodyField.clear().type(v); }
-  typeTags(v){ this.tagsField.clear().type(v); }
-  publish(){ this.publishBtn.click(); }
+  typeTitle(v) {
+    this.titleField.clear();
+    this.titleField.type(v);
+  }
+
+  typeAbout(v) {
+    this.aboutField.clear();
+    this.aboutField.type(v);
+  }
+
+  typeBody(v) {
+    this.bodyField.clear();
+    this.bodyField.type(v);
+  }
+
+  typeTags(v) {
+    this.tagsField.clear();
+    this.tagsField.type(v);
+  }
+
+  publish() {
+    this.publishBtn.click();
+  }
 }
 
 export default EditorPageObject;
